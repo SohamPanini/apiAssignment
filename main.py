@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
 import redis
-import datetime
 from Routes.Authentication import authentication_bp
 from Routes.authorization import authorization_bp
 
