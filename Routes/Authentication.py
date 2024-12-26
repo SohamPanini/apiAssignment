@@ -45,6 +45,12 @@ def signin():
     if not hashed_password or not authentication_bp.bcrypt.check_password_hash(hashed_password, password):
         return jsonify({'error': 'Invalid credentials!'}), 401
     
-    token = jwt.encode({'email': email, 'exp': datetime.datetime.now(datetime.timezone.utc)+ datetime.timedelta(minutes=5)},
+    acccess_token = jwt.encode({'email': email, 'exp': datetime.datetime.now(datetime.timezone.utc)+ datetime.timedelta(minutes=2)},
                        authentication_bp.config, algorithm='HS256')
-    return jsonify({'token': token}), 200
+    
+    refresh_token = jwt.encode({'email': email, 'exp': datetime.datetime.now(datetime.timezone.utc)+ datetime.timedelta(minutes=5)},
+                        authentication_bp.config, algorithm='HS256')
+    
+    redis_client.set(f'refresh_token:{email}', refresh_token)
+
+    return jsonify({'access_token': acccess_token, 'refresh_token': refresh_token}), 200
