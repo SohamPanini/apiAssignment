@@ -45,6 +45,6 @@ def signin():
     if not hashed_password or not authentication_bp.bcrypt.check_password_hash(hashed_password, password):
         return jsonify({'error': 'Invalid credentials!'}), 401
     
-    token = jwt.encode({'email': email, 'expiry': (datetime.datetime.now(datetime.timezone.utc)) + datetime.timedelta(minutes=5)},
+    token = jwt.encode({'email': email, 'exp': datetime.datetime.now(datetime.timezone.utc)+ datetime.timedelta(minutes=5)},
                        authentication_bp.config, algorithm='HS256')
     return jsonify({'token': token}), 200
