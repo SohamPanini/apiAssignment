@@ -31,6 +31,9 @@ def token_required(f):
             return jsonify({'error': 'Token has expired!'}), 401
         except jwt.InvalidTokenError:
             return jsonify({'error': 'Invalid token!'}), 401
+        
+        if data.get('token_type') != 'access':
+            return jsonify({'error': 'Refresh token cannot access authorized route!'}), 403
 
         return f(data, *args, **kwargs)
 
@@ -71,7 +74,8 @@ def refresh_token():
     if stored_refresh_token != refresh_token:
         return jsonify({'error': 'Invalid refresh token!'}), 401
     
-    new_access_token = jwt.encode({'email': email, 'exp': datetime.datetime.now(datetime.timezone.utc)+ datetime.timedelta(minutes=2)},
+    new_access_token = jwt.encode({'email': email, 'exp': datetime.datetime.now(datetime.timezone.utc)+ datetime.timedelta(minutes=2),
+                                   'token_type':'access'},
                     authorization_bp.config, algorithm='HS256')
     
     return jsonify({'access_token':new_access_token}), 200
