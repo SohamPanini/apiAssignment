@@ -40,3 +40,12 @@ def token_required(f):
 def check_status(data):
     # If the token is valid, this function will be called
     return jsonify({'message': 'Token is valid', 'user_data': data}), 200
+
+@authorization_bp.route('/revoke_token', methods=['POST'])
+@token_required
+def revoke_token(decoded_token):
+    print("this is the decoded token", decoded_token)
+    token = request.headers.get('Authorization')
+    token = token[7:]
+    redis_client.sadd('revoked_tokens', token)
+    return jsonify({'message': 'Token has been revoked!'}), 200
