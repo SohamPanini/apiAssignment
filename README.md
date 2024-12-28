@@ -4,7 +4,7 @@ For database, I am using redis, So you can view the users and the token from red
 
 # Curl Commands to test each use case
 ## Task1 Signup of user:
-Windows->curl "http://127.0.0.1:8080/signup" --header "Content-Type: application/json" --data-raw "{\"email\": \"soham@gmail.com\", \"password\": \"soham123@\"}"
+Windows->curl "http://127.0.0.1:8080/signup" --header "Content-Type: application/json" --data-raw "{\\"email\\": \\"soham@gmail.com\\", \\"password\\": \\"soham123@\\"}"
 
 ## Task2 Signin of user:
 
