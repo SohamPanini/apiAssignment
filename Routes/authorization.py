@@ -22,7 +22,7 @@ def token_required(f):
             return jsonify({'error': 'Bearer token is malformed!'}), 400
 
         if redis_client.sismember('revoked_tokens', token):
-            return jsonify({'error': 'Token has been revoked!'}), 401
+            return jsonify({'error': 'Token has been revoked! User can not sign in'}), 401
 
         try:
             data = jwt.decode(token, authorization_bp.config, algorithms=['HS256'])
