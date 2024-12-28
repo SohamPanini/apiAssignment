@@ -63,3 +63,24 @@ hget users <user_account_name> -> to get the encrypted password for the user acc
 smembers revoke_tokens -> to get all the tokens that have been revoked
 
 get refresh_token:<user_account_name> -> to get the refresh token of that particular user.
+
+
+
+# Access Token Refresh Token Logic
+![Diagram](https://github.com/user-attachments/assets/d4fd51b1-21b9-404e-9236-ea4da07c776f)
+
+(1)  The client requests an access token by authenticating with the authorization server and presenting an authorization grant.
+
+(2)  The authorization server authenticates the client and validates the authorization grant, and if valid, issues an access token and a refresh token.
+  
+(3)  The client makes a protected resource request to the resource server by presenting the access token.
+  
+(4)  The resource server validates the access token, and if valid, serves the request.
+  
+(5)  Steps (3) and (4) repeat until the access token expires.  If the client knows the access token expired, it skips to step (7); otherwise, it makes another protected resource request.
+  
+(6)  Since the access token is invalid, the resource server returns an invalid token error.
+  
+(7)  The client requests a new access token by authenticating with the authorization server and presenting the refresh token.
+  
+(8)  The authorization server authenticates the client and validates the refresh token, and if valid, issues a new access token. (In my case, No new refresh token)
