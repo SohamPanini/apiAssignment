@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] = 'TEST'
 
 
 bcrypt = Bcrypt(app) 
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
+redis_client = redis.StrictRedis(host='redis', port=6379, db=0, decode_responses=True)
 
 authentication_bp.bcrypt = bcrypt
 authentication_bp.config = app.config['SECRET_KEY']
@@ -19,4 +19,4 @@ authorization_bp.config = app.config['SECRET_KEY']
 app.register_blueprint(authorization_bp)
 
 if __name__ == '__main__':
-    app.run(debug=True,port=8080)
+    app.run(host='0.0.0.0',debug=True,port=8080)
