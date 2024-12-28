@@ -6,11 +6,12 @@ import redis
 
 authentication_bp = Blueprint('authentication', __name__)
 
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
+redis_client = redis.StrictRedis(host='redis', port=6379, db=0, decode_responses=True)
 
 @authentication_bp.route('/')
 def home():
-    return "Hello, Flask!"
+    redis_client.set('greeting', 'Hello, Docker Compose on 8080!')
+    return redis_client.get('greeting')
 
 @authentication_bp.route('/signup', methods=['POST'])
 def signup():
