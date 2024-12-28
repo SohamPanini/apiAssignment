@@ -47,7 +47,7 @@ curl --location "http://127.0.0.1:8080/authorized" --header "Authorization: Bear
 
 ## Task5
 #### Mechanism to refresh the access_token while refresh_token is still active. gives new access token
-curl --location "http://127.0.0.1:8080/refresh" --header "Content-Type: application/json" --data "{//"refresh_token//"://"<REFRESH_TOKEN>//"}"
+curl --location "http://127.0.0.1:8080/refresh" --header "Content-Type: application/json" --data "{\\"refresh_token\\":\\"<REFRESH_TOKEN>\\"}"
 
 #### Task3 checks still hold,  you can call the authorized route with new access token
 curl --location "http://127.0.0.1:8080/authorized" --header "Authorization: Bearer <NEW_ACCESS_TOKEN>"
