@@ -1,14 +1,26 @@
 # apiAssignment
+
+<details>
+<summary> Run locally, without docker</summary>
+
 To run locally, without docker-
 You can run the main REST API service by using python main.py in the root directory.
-For database, I am using redis(install it locally), So you can view the users and the token from redis-cli.
-
-To run in docker container-
+To run database you need to install redis locally, so our app can connect to redis database, then you can view the users and the token from redis-cli.
+to start redis server, type ```net start redis``` and then in IDE terminal do ```redis-cli```
+  
+</details>
+<details>
+<summary> Run with docker in one command </summary>
+  
 Go in root directory, and Run ```docker-compose up --build``` and your application should be up and running.
-For database, Run ```docker exec -it <CONTAINER_ID_OF_REDIS> redis-cli```. To get container id, run ```docker ps```
+
+(Optional) To access and view database, Run ```docker exec -it <CONTAINER_ID_OF_REDIS> redis-cli```. To get container id, run ```docker ps```
+</details>
 
 # Curl Commands to test each use case
-(All the curl commands are for windows command prompt, for linux, remove the escape characters and change " to ')
+<details>
+<summary> For Windows </summary>
+
 ## Task1 
 #### Signup of user:
 ```
@@ -84,6 +96,86 @@ curl --location "http://localhost:8080/refresh" --header "Content-Type: applicat
 curl --location "http://localhost:8080/authorized" --header "Authorization: Bearer <NEW_ACCESS_TOKEN>"
 ```
 
+</details>
+<details>
+<summary> For Linux </summary>
+
+## Task1 
+#### Signup of user:
+```
+curl -X POST --location 'http://localhost:8080/signup' --header 'Content-Type: application/json' --data-raw '{"email": "soham@gmail.com", "password": "soham123@"}'
+```
+
+## Task2 
+#### Signin of user with non-registered email
+```
+curl -X POST --location 'http://localhost:8080/signin' --header 'Content-Type: application/json' --data-raw '{"email": "hello@gmail.com", "password": "soham123@"}'
+```
+
+#### Signin of user with invalid credentials
+```
+curl -X POST --location 'http://localhost:8080/signin' --header 'Content-Type: application/json' --data-raw '{"email": "soham@gmail.com", "password": "hello@"}'
+```
+
+#### Signin of user with correct credentials returns access token and refresh token
+```
+curl -X POST --location 'http://localhost:8080/signin' --header 'Content-Type: application/json' --data-raw '{"email": "soham@gmail.com", "password": "soham123@"}'
+```
+
+## Task3
+#### Mechanism of sending token along with a request from client to service. authorized route can only be accessed with access token and not refresh token. 
+```
+curl --location 'http://localhost:8080/authorized' --header 'Authorization: Bearer <ACCESS_TOKEN>'
+```
+
+#### Checking for refresh token accessing authorized route.
+```
+curl --location 'http://localhost:8080/authorized' --header "Authorization: Bearer <REFRESH_TOKEN>'
+```
+
+#### Checking for token is present or not
+```
+curl --location 'http://localhost:8080/authorized'
+```
+
+#### Checking for Expiry, Expiry for access_token is 2 mins and Expiry for refresh_token is 5 mins.
+After 2 mins, Send the same above curl command. 
+```
+curl --location 'http://localhost:8080/authorized' --header 'Authorization: Bearer <ACCESS_TOKEN>'
+```
+
+#### Checking for invalid token, in ACCESS_TOKEN field put any random characters, will give invalid token
+```
+curl --location 'http://localhost:8080/authorized' --header 'Authorization: Bearer <ACCESS_TOKEN>'
+```
+
+#### Checking for malformed token, If the header, doesnt contain keyword 'Bearer' will return token malformed
+```
+curl --location 'http://localhost:8080/authorized' --header 'Authorization: <ACCESS_TOKEN>'
+```
+
+## Task4
+#### Revocation of token, Also checks for all the tasks in task3
+```
+curl --location --request POST 'http://localhost:8080/revoke_token' --header 'Authorization: Bearer <ACCESS_TOKEN>'
+```
+#### User can't sign in, once token has been revoked, After revoking a token, try this curl command
+```
+curl --location 'http://localhost:8080/authorized' --header 'Authorization: Bearer <ACCESS_TOKEN>'
+```
+
+## Task5
+#### Mechanism to refresh the access_token while refresh_token is still active. gives new access token
+```
+curl -X POST --location "http://localhost:8080/refresh" --header "Content-Type: application/json" --data '{"refresh_token":"<REFRESH_TOKEN>"}'
+```
+
+#### Task3 checks still hold,  you can call the authorized route with new access token
+```
+curl --location 'http://localhost:8080/authorized' --header 'Authorization: Bearer <NEW_ACCESS_TOKEN>'
+```
+
+</details>
 
 # Redis Commands
 keys * -> to get all the keys present inside the redis database.
