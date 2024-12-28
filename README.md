@@ -197,7 +197,7 @@ To get the refresh token of that particular user.
 # Access Token Refresh Token Logic
 ![Diagram](https://github.com/user-attachments/assets/d4fd51b1-21b9-404e-9236-ea4da07c776f)
 
-(1)  The client requests an access token by authenticating with the authorization server and presenting an authorization grant.
+(1)  The client requests an access token by authenticating with the authorization server and presenting an authorization grant by signing in with valid credentials.
 
 (2)  The authorization server authenticates the client and validates the authorization grant, and if valid, issues an access token and a refresh token.
   
