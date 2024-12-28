@@ -10,7 +10,7 @@ Go in root directory, and Run ```docker-compose up --build``` and your applicati
 (All the curl commands are for windows command prompt, for linux, remove the escape characters and change " to ')
 ## Task1 
 #### Signup of user:
-```curl --location "http://localhost:8080/signup" --header "Content-Type: application/json" --data-raw "{\\"email\\": \\"soham@gmail.com\\", \\"password\\": \\"soham123@\\"}"```
+```curl --location "http://localhost:8080/signup" --header "Content-Type: application/json" --data-raw "{\"email\": \"soham@gmail.com\", \"password\\": \"soham123@\"}"```
 
 ## Task2 
 #### Signin of user with non-registered email
