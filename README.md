@@ -3,8 +3,9 @@ To run locally, without docker-
 You can run the main REST API service by using python main.py in the root directory.
 For database, I am using redis(install it locally), So you can view the users and the token from redis-cli.
 
-to run in docker container-
+To run in docker container-
 Go in root directory, and Run ```docker-compose up --build``` and your application should be up and running.
+For database, Run ```docker exec -it <CONTAINER_ID_OF_REDIS> redis-cli```. To get container id, run ```docker ps```
 
 # Curl Commands to test each use case
 (All the curl commands are for windows command prompt, for linux, remove the escape characters and change " to ')
