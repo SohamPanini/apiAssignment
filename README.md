@@ -178,16 +178,20 @@ curl --location 'http://localhost:8080/authorized' --header 'Authorization: Bear
 </details>
 
 # Redis Commands
-keys * -> to get all the keys present inside the redis database.
+To get all the keys present inside the redis database.
+```keys * ```
 
-hkeys users -> to get all the users username who made an account.
+To get all the users username who made an account.
+```hkeys users ```
 
-hget users <user_account_name> -> to get the encrypted password for the user account.
+To get the encrypted password for the user account.
+```hget users <user_account_name> ```
 
-smembers revoke_tokens -> to get all the tokens that have been revoked
+To get all the tokens that have been revoked.
+```smembers revoke_tokens ```
 
-get refresh_token:<user_account_name> -> to get the refresh token of that particular user.
-
+To get the refresh token of that particular user.
+```get refresh_token:<user_account_name> ```
 
 
 # Access Token Refresh Token Logic
